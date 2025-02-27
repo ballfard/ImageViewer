@@ -1,0 +1,40 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:ImageViewer.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="ImageViewer.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Simple Image Viewer"
+        Width="900" Height="600">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Top Toolbar -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" Spacing="10">
+            <Button Content="Open Folder" Command="{Binding OpenFolderCommand}" />
+            <Button Content="Previous" Command="{Binding PreviousImageCommand}" />
+            <Button Content="Next" Command="{Binding NextImageCommand}" />
+        </StackPanel>
+
+        <!-- Image Display Area -->
+        <Border Grid.Row="1" Margin="10" BorderBrush="Gray" BorderThickness="1">
+            <Panel Background="#f0f0f0">
+                <TextBlock Text="No images loaded. Use 'Open Folder' to select a directory with images."
+                           IsVisible="{Binding CurrentImage, Converter={x:Static ObjectConverters.IsNull}}"
+                           VerticalAlignment="Center" HorizontalAlignment="Center" 
+                           TextWrapping="Wrap" Margin="20" />
+                
+                <Image Source="{Binding CurrentImage}"
+                       IsVisible="{Binding CurrentImage, Converter={x:Static ObjectConverters.IsNotNull}}"
+                       Stretch="Uniform" />
+            </Panel>
+        </Border>
+
+        <!-- Bottom Status Bar -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="10">
+            <TextBlock Grid.Column="0" Text="{Binding ImageName}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="{Binding ImageInfo}" VerticalAlignment="Center" />
+        </Grid>
+    </Grid>
+</Window>
